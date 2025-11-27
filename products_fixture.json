@@ -1,0 +1,28 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "Iphone 17 pro max",
+        "description": "Всеми желаемый телефон",
+        "image": "catalog/photo/Iphone_17_pro_max.jpeg",
+        "category": 1,
+        "price": 150000.0,
+        "created_at": "2025-11-27",
+        "updated_at": "2025-11-27"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Фигня с маркетплейса",
+        "description": "Непонятная фигня.",
+        "image": "",
+        "category": null,
+        "price": 0.0,
+        "created_at": null,
+        "updated_at": null
+    }
+}
+]
