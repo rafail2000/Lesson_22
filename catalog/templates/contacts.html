@@ -25,18 +25,38 @@
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
                     <table class="table table-striped">
+                        {% if contact %}
                         <tr>
                             <td class="w-25">Страна</td>
-                            <td>USA</td>
+                            <td>{{ contact.country }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">ИНН</td>
-                            <td>91-1144442</td>
+                            <td>{{ contact.inn }}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Адрес</td>
-                            <td>Redmond,WA,98052-6399</td>
+                            <td>{{ contact.address }}</td>
                         </tr>
+                        {% if contact.phone %}
+                        <tr>
+                            <td class="w-25">Телефон</td>
+                            <td>{{ contact.phone }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if contact.email %}
+                        <tr>
+                            <td class="w-25">Email</td>
+                            <td>{{ contact.email }}</td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">
+                                Контактная информация пока не добавлена
+                            </td>
+                        </tr>
+                        {% endif %}
                     </table>
                 </div>
             </div>
@@ -59,7 +79,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="message">Сообщение</label>
-                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Контактный телефон" required></textarea>
+                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Ваше сообщение" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                     </form>

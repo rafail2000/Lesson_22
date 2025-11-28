@@ -73,3 +73,24 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Contact(models.Model):
+    """
+    Модель для хранения контактных данных компании
+    """
+
+    country = models.CharField(max_length=100, verbose_name='Страна')
+    inn = models.CharField(max_length=20, verbose_name='ИНН')
+    address = models.TextField(verbose_name='Адрес')
+    phone = models.CharField(max_length=20, verbose_name='Телефон', blank=True)
+    email = models.EmailField(verbose_name='Email', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
+
+    class Meta:
+        verbose_name = 'Контакт'
+        verbose_name_plural = 'Контакты'
+
+    def __str__(self):
+        return f"Контакты ({self.country})"
