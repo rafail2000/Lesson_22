@@ -4,6 +4,14 @@ from django.shortcuts import render
 from catalog.models import Product, Contact
 
 
+def base(request):
+    """
+    Контроллер базовой страницы
+    """
+
+    return render(request, 'base.html')
+
+
 def home(request):
     """
     Контроллер страницы home.html
@@ -23,6 +31,7 @@ def contacts(request):
     """
     Контроллер страницы контактов
     """
+
     contact_info = Contact.objects.first()
 
     if request.method =="POST":
@@ -35,3 +44,22 @@ def contacts(request):
         'contact': contact_info
     }
     return render(request, 'contacts.html', context)
+
+def product_item(request, pk):
+    """
+    Контроллер товара
+    """
+
+    product = Product.objects.get(pk=pk)
+    context = {"product": product}
+    return render(request, 'product_item.html', context)
+
+
+def products_list(request):
+    """
+    Контроллер списка товаров
+    """
+
+    products = Product.objects.all().order_by('created_at')
+    context = {"products": products}
+    return render(request, 'products_list.html', context)
