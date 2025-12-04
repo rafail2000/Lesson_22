@@ -1,5 +1,7 @@
+from django import forms
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from catalog.models import Product, Contact
 
@@ -63,3 +65,30 @@ def products_list(request):
     products = Product.objects.all().order_by('created_at')
     context = {"products": products}
     return render(request, 'products_list.html', context)
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'category', 'price']
+
+
+def add_product(request):
+    """
+    Страница добавления нового товара
+    """
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save()
+            messages.success(request, f'Товар "{product.name}" успешно добавлен!')
+            return redirect('/products_list/')  # ← имя маршрута, не шаблона
+    else:
+        form = ProductForm()
+
+    context = {
+        'form': form,
+        'title': 'Добавить новый товар'
+    }
+    return render(request, 'add_product.html', context)
