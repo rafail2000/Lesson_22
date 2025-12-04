@@ -1,4 +1,5 @@
 from django import forms
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -63,8 +64,10 @@ def products_list(request):
     """
 
     products = Product.objects.all().order_by('created_at')
-    context = {"products": products}
-    return render(request, 'products_list.html', context)
+    paginator = Paginator(products, 6)
+    page = request.GET.get('page')
+    products_page = paginator.get_page(page)
+    return render(request, 'products_list.html', {'products': products_page})
 
 
 class ProductForm(forms.ModelForm):

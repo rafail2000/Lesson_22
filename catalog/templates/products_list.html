@@ -21,4 +21,15 @@
    </div>
   {% endfor %}
 </div>
+<div class="pagination">
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}">‹ Предыдущая</a>
+    {% endif %}
+
+    <span>Страница {{ products.number }} из {{ products.paginator.num_pages }}</span>
+
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}">Следующая ›</a>
+    {% endif %}
+</div>
 {% endblock %}
