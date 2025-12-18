@@ -111,7 +111,7 @@ class ProductDetailView(DetailView):
     """
 
     model = Product
-    template_name = 'catalog/product_item.html'
+    template_name = 'catalog/article_detail.html'
     context_object_name = 'product'
 
     def get_context_data(self, pk, **kwargs):
@@ -127,7 +127,7 @@ class ProductDetailView(DetailView):
 #
 #     product = Product.objects.get(pk=pk)
 #     context = {"product": product}
-#     return render(request, 'product_item.html', context)
+#     return render(request, 'article_detail.html', context)
 
 
 class ProductsListView(ListView):
@@ -136,7 +136,7 @@ class ProductsListView(ListView):
     """
 
     model = Product
-    template_name = 'catalog/products_list.html'
+    template_name = 'catalog/articles_list.html'
     context_object_name = 'products'
     paginate_by = 6
     ordering = ['created_at']
@@ -154,7 +154,7 @@ class ProductsListView(ListView):
 #     paginator = Paginator(products, 6)
 #     page = request.GET.get('page')
 #     products_page = paginator.get_page(page)
-#     return render(request, 'products_list.html', {'products': products_page})
+#     return render(request, 'articles_list.html', {'products': products_page})
 
 
 # class ProductForm(forms.ModelForm):

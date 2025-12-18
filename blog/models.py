@@ -7,7 +7,7 @@ class BlogDetail(models.Model):
     """
 
     title = models.CharField(
-        max_lenght=100,
+        max_length=100,
         verbose_name="Заголовок",
         help_text="Введите заголовок",
     )
