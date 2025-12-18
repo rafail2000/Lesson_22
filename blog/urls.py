@@ -12,4 +12,4 @@
 #     path('product_item/<int:pk>/', ProductDetailView.as_view(), name='product_item'),
 #     path('products_list/', ProductsListView.as_view(), name='products_list'),
 #     path('add_product/', ProductCreateView.as_view(), name='add_product'),
-]
+# ]
