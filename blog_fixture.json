@@ -1,0 +1,38 @@
+[
+{
+    "model": "blog.blogdetail",
+    "pk": 1,
+    "fields": {
+        "title": "Лучшие рецепты на новый год",
+        "content": "Я не знаю. :(12s",
+        "preview": "blog/photo/23796-ed4_big_wide.jpg",
+        "created_at": "2025-12-18",
+        "publication_attribute": true,
+        "views_counter": 18
+    }
+},
+{
+    "model": "blog.blogdetail",
+    "pk": 3,
+    "fields": {
+        "title": "Нужно ли ставить ёлку на новый год?",
+        "content": "Конечно нужно, зачем ты это читаешь даже?",
+        "preview": "blog/photo/afb16b6ac809867da63b8de4547dddaa.jpg",
+        "created_at": "2025-12-18",
+        "publication_attribute": true,
+        "views_counter": 0
+    }
+},
+{
+    "model": "blog.blogdetail",
+    "pk": 4,
+    "fields": {
+        "title": "Почему ты учишься на программиста и ничего не понимаешь?",
+        "content": "У самого такая же фигня.",
+        "preview": "blog/photo/istock-1981880630_edit.jpg",
+        "created_at": "2025-12-18",
+        "publication_attribute": true,
+        "views_counter": 0
+    }
+}
+]
