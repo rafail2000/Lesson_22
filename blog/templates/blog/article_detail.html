@@ -1,25 +1,49 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="album py-5 bg-body-tertiary">
-   <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-         <div class="col">
-            <div class="card shadow-sm">
-               <img src="{{ blog.photo }}">
-               <div class="card_body">
-                  <p class="card-text">Название статьи: {{ object.title }}</p>
-                  <p class="card-text">Описание статьи: {{ object.content }}</p>
-                  <p class="card-text">Дата создания статьи: {{ object.created_at }}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                     <div class="btn-group">
-                        <a class="btn btn-primary" href="{% url 'blog:articles_list' %}" role="button">Назад</a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+<div class="container py-4">
+    <!-- Заголовок -->
+    <h1 class="mb-4">{{ object.title }}</h1>
+
+    <!-- Информация -->
+    <div class="text-muted mb-4">
+        <small>
+            Создано: {{ object.created_at|date:"d.m.Y" }} |
+            Просмотров: {{ object.views_counter }} |
+            Статус: {% if object.publication_attribute %}Опубликовано{% else %}Черновик{% endif %}
+        </small>
+    </div>
+
+    <!-- Изображение -->
+    {% if object.preview %}
+    <div class="mb-4">
+        <img src="{{ object.preview.url }}"
+             class="img-fluid rounded"
+             alt="{{ object.title }}">
+    </div>
+    {% endif %}
+
+    <!-- Контент -->
+    <div class="mb-4">
+        {{ object.content|linebreaks }}
+    </div>
+
+    <!-- Кнопки -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'blog:articles_list' %}" class="btn btn-secondary">
+            Назад
+        </a>
+
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'blog:article_update' object.pk %}" class="btn btn-primary me-2">
+                Редактировать
+            </a>
+            <a href="{% url 'blog:article_delete' object.pk %}" class="btn btn-danger">
+                Удалить
+            </a>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

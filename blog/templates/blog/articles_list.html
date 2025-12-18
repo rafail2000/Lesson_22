@@ -1,24 +1,6 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<!-- Отладочная информация -->
-<div class="container mt-3">
-    <div class="alert alert-info">
-        <h5>Отладка изображений:</h5>
-        <p>Количество статей: {{ object_list|length }}</p>
-        {% for article in object_list %}
-            <hr>
-            <p>Статья: {{ article.title }}</p>
-            <p>Превью существует: {{ article.preview|yesno:"Да,Нет" }}</p>
-            {% if article.preview %}
-                <p>URL изображения: {{ article.preview.url }}</p>
-                <p>Путь к файлу: {{ article.preview.path }}</p>
-                <p>Проверка файла: {% if article.preview.file %}Файл существует{% else %}Файл не найден{% endif %}</p>
-            {% endif %}
-        {% endfor %}
-    </div>
-</div>
-
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -28,9 +10,6 @@
                         {% if article.preview %}
                             <img src="{{ article.preview.url }}" class="card-img-top"
                                  alt="{{ article.title }}" style="height: 225px; object-fit: cover;">
-                            <div class="alert alert-success mt-2">
-                                URL: {{ article.preview.url }}
-                            </div>
                         {% else %}
                             <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
                                  style="height: 225px;">
@@ -52,6 +31,7 @@
                                 </div>
                                 <small class="text-muted">{{ article.created_at|date:"d.m.Y" }}</small>
                             </div>
+                            <small class="text-muted">{{ article.views_counter }}</small>
                         </div>
                     </div>
                 </div>
