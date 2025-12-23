@@ -10,10 +10,18 @@
          </div>
          <div class="card-body">
             <h1 class="card-title pricing-card-title">{{ product.price }}<small class="text-body-secondary fw-light">/руб.</small></h1>
-           <p>{{ product.description|truncatechars:100 }}</p>
+               <p>{{ product.description|truncatechars:100 }}</p>
             <a href="{% url 'catalog:product_item' product.id %}"
                class="w-100 btn btn-lg btn-outline-primary">
                Подробнее
+            </a>
+            <a href="{% url 'catalog:product_edit' product.id %}"
+               class="w-100 btn btn-lg btn-outline-primary">
+               Редактировать
+            </a>
+             <a href="{% url 'catalog:product_delete' product.id %}"
+               class="w-100 btn btn-lg btn-outline-primary">
+               Удалить
             </a>
          </div>
       </div>
