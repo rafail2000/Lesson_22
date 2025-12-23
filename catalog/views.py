@@ -1,7 +1,7 @@
 from django import forms
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView
+from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
 from catalog.models import Product, Contact
@@ -67,11 +67,12 @@ class ProductDetailView(DetailView):
     """
 
     model = Product
-    template_name = 'catalog/article_detail.html'
+    template_name = 'catalog/product_item.html'
     context_object_name = 'product'
 
-    def get_context_data(self, pk, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
         context['additional_data'] = Product.objects.get(pk=pk)
         return context
 
@@ -98,5 +99,27 @@ class ProductCreateView(CreateView):
 
     model = Product
     form_class = ProductForm
-    template_name = 'catalog/add_product.html'
+    template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
+
+
+class ProductUpdateView(UpdateView):
+    """
+    Страница редактирования имеющегося товара
+    """
+
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:products_list')
+
+
+class ProductDeleteView(DeleteView):
+    """
+    Страница удаления имеющегося товара
+    """
+
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:products_list')
+
