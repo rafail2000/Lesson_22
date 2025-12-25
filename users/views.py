@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from users.forms import UserRegisterForm
 from users.models import User
@@ -22,3 +22,14 @@ class UserCreateView(CreateView):
         from_email = 'raf200036@yandex.ru'
         recipient_list = [user_email,]
         send_mail(subject, message, from_email, recipient_list)
+
+
+class UserUpdateView(UpdateView):
+    """
+    Страница редактирования пользователя
+    """
+
+    model = User
+    form_class = UserRegisterForm
+    template_name = 'users/user_form.html'
+    success_url = reverse_lazy('catalog:products_list')
