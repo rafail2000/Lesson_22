@@ -67,3 +67,11 @@ class ProductForm(StyleFormMixin, ModelForm):
                 self.add_error('name', f'name не может содержать слово {word}')
             elif any([True if i.lower() == word else False for i in description.split()]):
                 self.add_error('description', f'name не может содержать слово {word}')
+
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    """
+    Класс формы для модератора
+    """
+    model = Product
+    fields = ('is_published',)
