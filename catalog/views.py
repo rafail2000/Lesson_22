@@ -94,7 +94,7 @@ class ProductsListView(ListView):
         return Product.objects.filter()
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(CreateView, LoginRequiredMixin):
     """
     Страница добавления нового товара
     """
@@ -103,6 +103,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
+
+    def form_valid(self, form):
+        product= form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -119,11 +126,11 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return ProductForm
-        if user.has_perm('can_unpublish_product') and user.has_perm('can_delete_product'):
+        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.can_delete_product'):
             return ProductModeratorForm
         raise PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     """
     Страница удаления имеющегося товара
     """
@@ -132,4 +139,3 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:products_list')
-

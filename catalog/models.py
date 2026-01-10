@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     """
@@ -70,6 +72,14 @@ class Product(models.Model):
         null=True,
         help_text="Введите дату последнего обновления",
     )
+
+    owner = models.ForeignKey(
+        User,
+        verbose_name='Владелец',
+        help_text='Укажите имя владельца',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL)
 
     is_published = models.BooleanField(
         default=False,

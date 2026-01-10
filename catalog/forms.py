@@ -34,6 +34,7 @@ class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        exclude = ('is_published',)
 
     def clean_image(self):
         allowed_extensions = ['.png', '.jpg']
@@ -73,5 +74,7 @@ class ProductModeratorForm(StyleFormMixin, ModelForm):
     """
     Класс формы для модератора
     """
-    model = Product
-    fields = ('is_published',)
+
+    class Meta:
+        model = Product
+        fields = ('is_published', 'description', 'category')
