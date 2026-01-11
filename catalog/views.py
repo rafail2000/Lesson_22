@@ -1,9 +1,11 @@
 from django import forms
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.core.exceptions import PermissionDenied
 
-from catalog.forms import ProductForm
+from catalog.forms import ProductForm, ProductModeratorForm
 from catalog.models import Product, Contact
 
 
@@ -22,12 +24,12 @@ class HomeTemplateView(TemplateView):
 
     template_name = 'catalog/home.html'
 
-    latest_products = Product.objects.all().order_by('created_at')
-    if len(latest_products) > 5:
-        latest_products = latest_products[:5]
-    print("*****Последние пять продуктов*****")
-    for product in latest_products:
-        print(product)
+    # latest_products = Product.objects.all().order_by('created_at')
+    # if len(latest_products) > 5:
+    #     latest_products = latest_products[:5]
+    # print("*****Последние пять продуктов*****")
+    # for product in latest_products:
+    #     print(product)
 
 
 class ContactForm(forms.Form):
@@ -92,7 +94,7 @@ class ProductsListView(ListView):
         return Product.objects.filter()
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(CreateView, LoginRequiredMixin):
     """
     Страница добавления нового товара
     """
@@ -102,8 +104,15 @@ class ProductCreateView(CreateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
 
+    def form_valid(self, form):
+        product= form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """
     Страница редактирования имеющегося товара
     """
@@ -113,13 +122,20 @@ class ProductUpdateView(UpdateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.can_delete_product'):
+            return ProductModeratorForm
+        raise PermissionDenied
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     """
     Страница удаления имеющегося товара
     """
 
+    permission_required = 'catalog:product_delete'
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:products_list')
-

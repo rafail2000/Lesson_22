@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     """
@@ -33,9 +35,11 @@ class Product(models.Model):
         verbose_name="Наименование продукта",
         help_text="Введите наименование продукта",
     )
+
     description = models.TextField(
         verbose_name="Описание продукта", help_text="Введите описание продукта"
     )
+
     image = models.ImageField(
         upload_to="catalog/photo",
         blank=True,
@@ -43,6 +47,7 @@ class Product(models.Model):
         verbose_name="Фото продукта",
         help_text="Загрузите фото продукта",
     )
+
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
@@ -52,6 +57,7 @@ class Product(models.Model):
         blank=True,
         related_name="products",
     )
+
     price = models.FloatField(verbose_name="Цена", help_text="Введите цену продукта")
     created_at = models.DateField(
         blank=True,
@@ -59,6 +65,7 @@ class Product(models.Model):
         null=True,
         help_text="Введите дату создания",
     )
+
     updated_at = models.DateField(
         blank=True,
         verbose_name="Дата последнего обновления",
@@ -66,10 +73,27 @@ class Product(models.Model):
         help_text="Введите дату последнего обновления",
     )
 
+    owner = models.ForeignKey(
+        User,
+        verbose_name='Владелец',
+        help_text='Укажите имя владельца',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL)
+
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name='Опубликовано'
+    )
+
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["category", "name"]
+        permissions = [
+            ('can_unpublish_product', 'Can unpublished product'),
+            ('can_delete_product', 'Can delete product'),
+        ]
 
     def __str__(self):
         return self.name

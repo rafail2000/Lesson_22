@@ -34,6 +34,7 @@ class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        exclude = ('is_published',)
 
     def clean_image(self):
         allowed_extensions = ['.png', '.jpg']
@@ -67,3 +68,13 @@ class ProductForm(StyleFormMixin, ModelForm):
                 self.add_error('name', f'name не может содержать слово {word}')
             elif any([True if i.lower() == word else False for i in description.split()]):
                 self.add_error('description', f'name не может содержать слово {word}')
+
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    """
+    Класс формы для модератора
+    """
+
+    class Meta:
+        model = Product
+        fields = ('is_published', 'description', 'category')
