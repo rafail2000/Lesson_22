@@ -126,7 +126,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return ProductForm
-        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.can_delete_product'):
+        if user.has_perm('catalog.can_unpublish_product'):
             return ProductModeratorForm
         raise PermissionDenied
 
@@ -135,7 +135,7 @@ class ProductDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView)
     Страница удаления имеющегося товара
     """
 
-    permission_required = 'catalog:product_delete'
+    permission_required = ['catalog.delete_product', 'catalog.can_delete_product']
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:products_list')
