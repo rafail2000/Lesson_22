@@ -143,7 +143,7 @@ python manage.py runserver
 
 #Lesson_28
 
-выполните команду "python manage.py loaddata blog_fixture.json --format json"
+выполните команду "python manage.py loaddata groups.json --format json"
 
 Пользователи:
 admin@example.com
