@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 
 from catalog.forms import ProductForm, ProductModeratorForm
 from catalog.models import Product, Contact
+from catalog.services import get_products_from_cache, get_category_list
 
 
 class BaseTemplateView(TemplateView):
@@ -91,7 +92,28 @@ class ProductsListView(ListView):
     ordering = ['created_at']
 
     def get_queryset(self):
-        return Product.objects.filter()
+        return get_products_from_cache().filter()
+
+
+class CategoryListView(ListView):
+    """
+    Контроллер для вывода товаров по категориям
+    """
+
+    model = Product
+    template_name = 'catalog/category_list.html'
+    context_object_name = 'products'
+    paginate_by = 6
+    ordering = ['created_at']
+
+    def get_queryset(self):
+        category_name = self.request.GET.get('category_name')
+        return get_category_list(category_name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_name'] = self.request.GET.get('category_name', '')
+        return context
 
 
 class ProductCreateView(CreateView, LoginRequiredMixin):

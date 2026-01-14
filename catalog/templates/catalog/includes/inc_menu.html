@@ -1,6 +1,13 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
     <nav class="ms-5">
+        <form method="get" action="{% url 'catalog:category_list' %}" class="form-floating d-inline-flex align-items-center">
+            {% csrf_token %}
+            <div class="mb-3 me-2">
+                <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Введите название категории" required>
+            </div>
+            <button type="submit" class="btn btn-outline-primary mb-3">Найти</button>
+        </form>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Главная</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_list' %}">Каталог</a>
