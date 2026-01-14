@@ -16,6 +16,19 @@
     "model": "catalog.product",
     "pk": 2,
     "fields": {
+        "name": "Samsung SmartTV",
+        "description": "Всеми желаемый телевизор",
+        "image": "",
+        "category": 2,
+        "price": 1500000.0,
+        "created_at": "2025-11-27",
+        "updated_at": "2025-11-27"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
         "name": "Фигня с маркетплейса",
         "description": "Непонятная фигня.",
         "image": "",

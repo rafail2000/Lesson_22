@@ -18,3 +18,15 @@ def get_products_from_cache():
     products = Product.objects.all()
     cache.set(key, products)
     return products
+
+def get_category_list(category_name=None):
+    """
+    Получает список продуктов по категориям.
+    """
+
+    products = Product.objects.all().select_related('category')
+
+    if category_name:
+        products = products.filter(category__name__icontains=category_name)
+
+    return products.order_by('created_at')
