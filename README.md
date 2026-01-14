@@ -143,7 +143,7 @@ python manage.py runserver
 
 #Lesson_28
 
-выполните команду "python manage.py loaddata groups_fixture.json --format json"
+Выполните команду "python manage.py loaddata groups_fixture.json --format json"
 
 Пользователи:
 admin@example.com
@@ -164,3 +164,15 @@ user@example.com
     2.3 Настроены проверки в контроллерах чтобы у каждого пользователя были свои функции при редактировании.
     2.4 Обновлены условия в шаблонах чтобы кнопка удаления и редактирования продуктов была у владельцев продукта.
     
+#Lesson_29
+Выполните команду "python manage.py loaddata categoryes_fixture.json --format json"
+Выполните команду "python manage.py loaddata products_fixture.json --format json"
+
+Задание 1
+    Установлен redis в проект и настроен.
+Задание 2
+    Настроено кеширование для страницы товара.
+Задание 3
+    Создан шаблон для отсортированных товаров по категории и настроен соответствующий контроллер.
+Задание 4
+    Добавлено кеширование для списка продуктов.
