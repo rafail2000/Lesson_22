@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 
 from catalog.forms import ProductForm, ProductModeratorForm
 from catalog.models import Product, Contact
+from catalog.services import get_products_from_cache
 
 
 class BaseTemplateView(TemplateView):
@@ -91,7 +92,7 @@ class ProductsListView(ListView):
     ordering = ['created_at']
 
     def get_queryset(self):
-        return Product.objects.filter()
+        return get_products_from_cache().filter()
 
 
 class ProductCreateView(CreateView, LoginRequiredMixin):
